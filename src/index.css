@@ -5,9 +5,132 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: rgb(27, 27, 45);
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+  font-family: "Sansita Swashed", cursive;
+}
+
+.center {
+  width: 340px;
+  margin-top: 10px;
+  position: relative;
+  padding: 10px 50px;
+  background: #9994d1;
+  border-radius: 10px;
+
+}
+
+.center h1 {
+  font-size: 2em;
+  border-left: 8px solid rgb(255, 203, 30);
+  color: #000;
+  letter-spacing: 5px;
+  margin-bottom: 20px;
+  font-weight: bold;
+  padding-left: 10px;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.center .inputbox {
+  position: relative;
+  width: 300px;
+  height: 50px;
+  margin-bottom: 10px;
+}
+
+.center .inputbox input {
+  position: absolute;
+  color: white;
+  top: 0;
+  left: 0;
+  width: 100%;
+  border: 2px solid #000;
+  outline: none;
+  background: none;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 1.2em;
+}
+
+.center .inputbox input::placeholder {
+  color: white;
+}
+
+.center .inputbox [type="button"] {
+  width: 100%;
+  background: dodgerblue;
+  color: #ffffff;
+  border: #fff;
+}
+
+.center .inputbox:hover [type="button"] {
+  color: #000;
+  background: linear-gradient(45deg, greenyellow, dodgerblue);
+}
+
+.items li {
+  background-color: aqua;
+  display: inline-flex;
+  width: 100%;
+  justify-content: space-evenly;
+  padding: 10px;
+  margin: 10px;
+  height: 30px;
+  border-radius: 12px;
+  box-shadow: rgba(23, 108, 227, 0.35) 0px 5px 15px;
+}
+
+.items ul {
+  width: 600px;
+  position: absolute;
+  left: 27%;
+}
+
+.items button {
+  width: 80px;
+  font-size: 16px;
+  text-decoration: none;
+  background-color: yellow;
+  border: none;
+  border-radius: 12px;
+  letter-spacing: 1px;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+
+}
+
+.darkmode {
+  display: flexbox;
+  position: absolute;
+  left: 85%;
+  top: 3%;
+
+}
+
+.darkmode button {
+  background-color: rgb(133, 133, 230);
+
+  font-size: 16px;
+  text-decoration: none;
+  padding: 10px;
+  font-weight: bold;
+  border: none;
+  border-radius: 12px;
+  letter-spacing: 1px;
+}
+
+.Dark {
+  background-color: rgb(27, 27, 45);
+
+}
+.Light {
+  background-color: #d8dada;
+ 
 }
