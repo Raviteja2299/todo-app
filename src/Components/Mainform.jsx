@@ -1,155 +1,134 @@
-import React from "react";
-import { useState } from "react";
+import React, { useContext, useState } from "react";
 
 const getId = () => {
   return new Date().getTime().toString();
 };
 
-const InputForm = () => {
-  const [data, setdata] = useState([]);
-  const [name, setname] = useState("");
-  const [description, setDescription] = useState("");
-  const [edit, setedit] = useState({ state: false, id: "" });
+const Mainform = () => {
+  let taskCompleted = [];
+  const [mainData, setMainData] = useState([]);
+  const [taskname, setTaskname] = useState("");
+  const [taskdescription, setTaskDescription] = useState("");
+
+  const [Completed, setCompleted] = useState([]);
+
+  const handleDone = (id) => {
+    const pendingdata = mainData.filter((itm) => {
+      if (itm.id !== id) {
+        return itm;
+      }
+    });
+    setMainData(pendingdata);
+    const com = mainData.find((itm) => {
+      return itm.id === id;
+    });
+
+    setCompleted([...Completed, com]);
+  };
+
+  const handleDelete = (id)=>{
+    setCompleted(Completed.filter(item=>{
+      return item.id !==id
+    }))
+  }
 
   return (
-    <div className="container">
-      <div className="center">
-        <h1>To - Do list</h1>
-
-        <form>
-          <div className="inputbox">
+    <React.Fragment>
+      <h1 className="heading">To-Do App</h1>
+      <React.Fragment>
+        <div className="head">
+          <div>
             <input
               type="text"
-              required
-              placeholder="Enter Task Title"
-              value={name}
+              placeholder="Task Name"
+              value={taskname}
               onChange={(e) => {
-                setname(e.target.value);
+                setTaskname(e.target.value);
               }}
             />
           </div>
-          <div className="inputbox">
+          <div>
             <input
               type="text"
-              id=""
-              placeholder="Enter Task Description"
-              value={description}
+              placeholder="Enter Description"
+              value={taskdescription}
               onChange={(e) => {
-                setDescription(e.target.value);
+                setTaskDescription(e.target.value);
               }}
             />
           </div>
-          {edit.state ? (
-            <div className="inputbox">
-              <input
-                type="button"
-                value="Edit"
-                onClick={(e) => {
-                  e.preventDefault();
-                  console.log("Edit function");
-                const temp =  data.map((item)=>{
-                  if (item.id === edit.id) {
-                    console.log(edit);
-                    console.log('if');
-                    return {
-                      ... data,
-                    name : name,
-                    desc : description,
-                    
-                    }
-                  }
-                  else{
-                    console.log('else');
-                    return item
-                  }
-                 
-                 })
-                 console.log("temp" ,temp);
-                 setdata(temp)
-                 setedit({...edit , state:false})
-                 setname('')
-                 setDescription('')
-                }}
-              />
-            </div>
-          ) : (
-            <div className="inputbox">
-              <input
-                type="button"
-                value="Add"
-                onClick={(e) => {
-                  e.preventDefault();
-
-                  let temp = {
+          <div className="btn">
+            <input
+              type="button"
+              value="Submit"
+              onClick={(e) => {
+                e.preventDefault();
+                setMainData([
+                  ...mainData,
+                  {
+                    name: taskname,
+                    description: taskdescription,
                     id: getId(),
-                    name: name,
-                    desc: description,
-                  };
-                  if (name !== "") {
-                    data.push(temp);
-                  }
+                  },
+                ]);
 
-                  setDescription("");
-                  setname("");
-                }}
-              />
-            </div>
-          )}
-        </form>
-      </div>
-      <hr />
-
-      {data.length === 0 ? (
-        <h1 style={{ color: "Blue" }}>No Tasks</h1>
-      ) : (
-        <div className="items">
-          <ul>
-            {data.map((item) => {
-              const { name, desc, id } = item;
-              return (
-                <div className="item" key={id}>
-                  <li>
-                    <span>{name}</span>
-                    <span>{desc}</span>
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-
-                        const temp = data.filter((item) => {
-                          if (item.id !== id) {
-                            return item;
-                          }
-                        });
-                        setdata(temp);
-                      }}
-                    >
-                      Done
-                    </button>
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setedit({state:true , id : id})
-                        console.log(edit);
-                        const temp = data.find((obj) =>{
-                          if(obj.id === id){
-                            return obj
-                          }
-                        })
-                      setname(temp.name)
-                      setDescription(temp.desc)
-                      }}
-                    >
-                      Edit
-                    </button>
-                  </li>
-                </div>
-              );
-            })}
-          </ul>
+                setTaskDescription("");
+                setTaskname("");
+              }}
+            />
+          </div>
         </div>
-      )}
-    </div>
+      </React.Fragment>
+
+      <div className="todobg">
+        <div className="left">
+          <h1>Pending Tasks : {mainData.length}</h1>
+
+          {mainData.map((item) => {
+            const { name, description, id } = item;
+            return (
+              <div className="card" key={id}>
+                <div className="item">
+                  <h2>Task : {name}</h2>{" "}
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleDone(id);
+                    }}
+                  >
+                    Done
+                  </button>
+                </div>
+                <p>{description}</p>
+              </div>
+            );
+          })}
+        </div>
+        <div className="right">
+          <h1>Completed Tasks : {Completed.length}</h1>
+          {Completed.map((item) => {
+            const { name, description, id } = item;
+            return (
+              <div className="card" key={id}>
+                <div className="item">
+                  <h2>Task : {name}</h2>{" "}
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleDelete(id);
+                    }}
+                  >
+                    Delete
+                  </button>
+                </div>
+                <p>{description}</p>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </React.Fragment>
   );
 };
 
-export default InputForm;
+export default Mainform;
